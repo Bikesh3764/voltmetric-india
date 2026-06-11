@@ -57,7 +57,7 @@ export function EnergyAdvisor({ result, appliances, tariff }: Props) {
     })[0];
   }
 
-  let behavioralTitle = "Behavioral Optimization";
+  const behavioralTitle = "Behavioral Optimization";
   let behavioralDesc = "Optimize your general usage to save energy.";
   let behavioralSavings = result.totalBill * 0.05;
 
@@ -72,7 +72,7 @@ export function EnergyAdvisor({ result, appliances, tariff }: Props) {
     behavioralDesc = `Optimize your ${topAppliance.name} usage by 10% to see immediate savings.`;
   }
 
-  let upgradeTitle = "Appliance Upgrade";
+  const upgradeTitle = "Appliance Upgrade";
   let upgradeDesc = "Switch to 5-star energy efficient appliances.";
   let upgradeSavings = result.totalBill * 0.15;
   
@@ -82,9 +82,9 @@ export function EnergyAdvisor({ result, appliances, tariff }: Props) {
      upgradeSavings = (topUnits * 0.20) * avgRate;
   }
 
-  let solarTitle = "Solar Adoption";
-  let solarDesc = "A 3kW system can offset ~360 units/month.";
-  let solarSavings = Math.min(result.totalBill, 360 * avgRate);
+  const solarTitle = "Solar Adoption";
+  const solarDesc = "A 3kW system can offset ~360 units/month.";
+  const solarSavings = Math.min(result.totalBill, 360 * avgRate);
 
   return (
     <div className="mt-8 space-y-6 border-t pt-8 print:hidden">

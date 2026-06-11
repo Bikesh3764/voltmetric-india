@@ -35,8 +35,8 @@ export function AIBillAnalyzer({ tariff }: Props) {
       });
 
       if (!res.ok) {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || "API request failed");
+        const errData: Record<string, unknown> = await res.json().catch(() => ({}));
+        throw new Error((errData.error as string) || "API request failed");
       }
 
       const data: RealAIExtractionResult = await res.json();
@@ -61,9 +61,9 @@ export function AIBillAnalyzer({ tariff }: Props) {
         setProcessingState("complete");
       }, 800);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || "An error occurred while communicating with the extraction API.");
+      setErrorMsg((err as Error).message || "An error occurred while communicating with the extraction API.");
       setProcessingState("error");
     }
   };
@@ -101,7 +101,7 @@ export function AIBillAnalyzer({ tariff }: Props) {
     );
   };
 
-  const renderField = (label: string, icon: React.ReactNode, field: ExtractedField<any>, formatValue?: (val: any) => string) => {
+  const renderField = (label: string, icon: React.ReactNode, field: ExtractedField<unknown>, formatValue?: (val: unknown) => string) => {
     if (field.value === null) return null;
     return (
       <Card className="overflow-hidden">
@@ -117,7 +117,7 @@ export function AIBillAnalyzer({ tariff }: Props) {
           </div>
           <div className="bg-muted p-2 rounded-md text-xs font-mono text-muted-foreground break-words relative group">
             <span className="block opacity-70 mb-1 uppercase tracking-wider text-[10px]">Evidence:</span>
-            "{field.evidence}"
+            &quot;{field.evidence}&quot;
           </div>
         </CardContent>
       </Card>
@@ -290,7 +290,7 @@ export function AIBillAnalyzer({ tariff }: Props) {
   );
 }
 
-function SparklesIcon(props: any) {
+function SparklesIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       {...props}

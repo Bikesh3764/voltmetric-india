@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { QuickBillTab } from "./QuickBillTab";
@@ -26,10 +26,14 @@ export function EnergyManagementPlatform({ tariff }: Props) {
   const [connType, setConnType] = useState<ConnectionType>("Residential");
   const [cycle, setCycle] = useState<BillingCycle>("Monthly");
   const [activeTab, setActiveTab] = useState("quick");
-  const [overrides, setOverrides] = useState<TariffOverrides | null>(null);
   const [lastParams, setLastParams] = useState<{units: number, type: ConnectionType, cycleStr: BillingCycle} | null>(null);
+  
+  const lastParamsRef = useRef(lastParams);
+  useEffect(() => {
+    lastParamsRef.current = lastParams;
+  }, [lastParams]);
 
-  const performCalculation = (units: number, type: ConnectionType, cycleStr: BillingCycle, currentOverrides: TariffOverrides | null) => {
+  const performCalculation = useCallback((units: number, type: ConnectionType, cycleStr: BillingCycle, currentOverrides: TariffOverrides | null) => {
     const fixedValue = parseFloat(tariff.fixedCharge.replace(/\D/g, '')) || 100;
     const base = calculateBill(units, tariff.slabs, fixedValue, type, cycleStr);
     setBaselineResult(base);
@@ -40,7 +44,7 @@ export function EnergyManagementPlatform({ tariff }: Props) {
     } else {
       setResult(base);
     }
-  };
+  }, [tariff]);
 
   const handleQuickCalculate = (units: number, type: ConnectionType, cycleStr: BillingCycle) => {
     setActiveAppliances(undefined);
@@ -62,12 +66,17 @@ export function EnergyManagementPlatform({ tariff }: Props) {
     performCalculation(units, "Residential", "Monthly", overrides);
   };
 
-  const handleOverridesChange = (newOverrides: TariffOverrides | null) => {
+  const handleOverridesChange = useCallback((newOverrides: TariffOverrides | null) => {
     setOverrides(newOverrides);
-    if (lastParams) {
-      performCalculation(lastParams.units, lastParams.type, lastParams.cycleStr, newOverrides);
+    if (lastParamsRef.current) {
+      performCalculation(
+        lastParamsRef.current.units, 
+        lastParamsRef.current.type, 
+        lastParamsRef.current.cycleStr, 
+        newOverrides
+      );
     }
-  };
+  }, [performCalculation]);
 
   return (
     <Card className="w-full relative bg-card/80 backdrop-blur-md shadow-sm border-t-primary border-t-4">
