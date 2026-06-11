@@ -66,7 +66,7 @@ export function StateSelectionModal({ children }: { children: React.ReactNode })
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<span className="inline-block" />}>
+      <DialogTrigger render={<span className="inline-block" />} nativeButton={false}>
         {children}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
