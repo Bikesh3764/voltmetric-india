@@ -44,7 +44,8 @@ export function InsightsAndCharts({ result }: { result: CalculationResult | null
             <XAxis type="number" hide />
             <YAxis dataKey="name" type="category" width={80} tick={{ fontSize: 12 }} axisLine={false} tickLine={false} />
             <Tooltip 
-              formatter={(value: number) => [`₹${Number(value).toFixed(2)}`, 'Cost']}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              formatter={(value: any) => [`₹${Number(value).toFixed(2)}`, 'Cost']}
               cursor={{fill: 'transparent'}}
               contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
             />

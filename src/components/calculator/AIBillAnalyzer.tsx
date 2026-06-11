@@ -113,7 +113,7 @@ export function AIBillAnalyzer({ tariff }: Props) {
             {renderConfidenceBadge(field.confidence)}
           </div>
           <div className="text-xl font-bold font-geist mb-3">
-            {formatValue ? formatValue(field.value) : field.value}
+            {formatValue ? formatValue(field.value) : String(field.value)}
           </div>
           <div className="bg-muted p-2 rounded-md text-xs font-mono text-muted-foreground break-words relative group">
             <span className="block opacity-70 mb-1 uppercase tracking-wider text-[10px]">Evidence:</span>
@@ -219,8 +219,8 @@ export function AIBillAnalyzer({ tariff }: Props) {
             {renderField("Bill Number", <Hash className="h-4 w-4 text-slate-500" />, result.billNumber)}
             {renderField("Billing Period", <CalendarDays className="h-4 w-4 text-orange-500" />, result.billingPeriod)}
             {renderField("Tariff Category", <FileText className="h-4 w-4 text-purple-500" />, result.tariffCategory)}
-            {renderField("Units Consumed", <Zap className="h-4 w-4 text-yellow-500" />, result.unitsConsumed, (val) => `${val} kWh`)}
-            {renderField("Total Amount", <Receipt className="h-4 w-4 text-emerald-500" />, result.totalAmount, (val) => `₹${val.toLocaleString('en-IN', { maximumFractionDigits: 2 })}`)}
+            {renderField("Units Consumed", <Zap className="h-4 w-4 text-yellow-500" />, result.unitsConsumed, (val) => `${val as number} kWh`)}
+            {renderField("Total Amount", <Receipt className="h-4 w-4 text-emerald-500" />, result.totalAmount, (val) => `₹${(val as number).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`)}
           </div>
 
           {/* AI Insights - Strictly Gated by Extracted Values */}
