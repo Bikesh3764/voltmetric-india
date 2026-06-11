@@ -26,6 +26,7 @@ export function EnergyManagementPlatform({ tariff }: Props) {
   const [connType, setConnType] = useState<ConnectionType>("Residential");
   const [cycle, setCycle] = useState<BillingCycle>("Monthly");
   const [activeTab, setActiveTab] = useState("quick");
+  const [overrides, setOverrides] = useState<TariffOverrides | null>(null);
   const [lastParams, setLastParams] = useState<{units: number, type: ConnectionType, cycleStr: BillingCycle} | null>(null);
   
   const lastParamsRef = useRef(lastParams);
