@@ -42,9 +42,16 @@ const popularStates = [
 ];
 
 const allStatesList = [
-  "Kerala", "Tamil Nadu", "Karnataka", "Bihar", "West Bengal", "Uttar Pradesh",
-  "Maharashtra", "Gujarat", "Punjab", "Haryana", "Odisha", "Assam", 
-  "Telangana", "Andhra Pradesh", "Rajasthan", "Delhi", "Jharkhand", "Chhattisgarh"
+  { state: "Kerala", board: "KSEB", slug: "kseb" },
+  { state: "Tamil Nadu", board: "TNEB", slug: "tneb" },
+  { state: "Bihar", board: "BSPHCL", slug: "bsphcl" },
+  { state: "West Bengal", board: "WBSEDCL", slug: "wbsedcl" },
+  { state: "Uttar Pradesh", board: "UPPCL", slug: "uppcl" },
+  { state: "Karnataka", board: "BESCOM", slug: "bescom" },
+  { state: "Maharashtra", board: "MSEDCL", slug: "msedcl" },
+  { state: "Punjab", board: "PSPCL", slug: "pspcl" },
+  { state: "Andhra Pradesh", board: "APSPDCL", slug: "apspdcl" },
+  { state: "Telangana", board: "TSSPDCL", slug: "tsspdcl" }
 ];
 
 const appliances = [
@@ -63,8 +70,8 @@ const solarTools = [
 export function Header() {
   const [searchQuery, setSearchQuery] = React.useState("");
 
-  const filteredStates = allStatesList.filter(state => 
-    state.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredStates = allStatesList.filter(item => 
+    item.state.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   return (
@@ -115,13 +122,13 @@ export function Header() {
                       </div>
                       <ScrollArea className="h-[280px] pr-4">
                         <div className="grid grid-cols-2 gap-2">
-                          {filteredStates.map((state) => (
+                          {filteredStates.map((item) => (
                             <Link 
-                              key={state}
-                              href={`/calculator/${state.toLowerCase().replace(/\s+/g, '')}`}
+                              key={item.slug}
+                              href={`/calculator/${item.slug}`}
                               className="text-sm px-3 py-2 rounded-md hover:bg-muted/50 hover:text-primary transition-colors flex items-center"
                             >
-                              {state}
+                              {item.state}
                             </Link>
                           ))}
                           {filteredStates.length === 0 && (
@@ -237,9 +244,9 @@ export function Header() {
                           ))}
                           <div className="my-2 border-t"></div>
                           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-1 mt-2">All States</h4>
-                          {allStatesList.map(state => (
-                            <Link key={state} href={`/calculator/${state.toLowerCase().replace(/\s+/g, '')}`} className="text-sm py-2 hover:text-primary transition-colors">
-                              {state}
+                          {allStatesList.map(item => (
+                            <Link key={item.slug} href={`/calculator/${item.slug}`} className="text-sm py-2 hover:text-primary transition-colors">
+                              {item.state}
                             </Link>
                           ))}
                         </div>

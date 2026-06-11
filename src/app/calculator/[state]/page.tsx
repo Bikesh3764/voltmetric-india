@@ -64,9 +64,12 @@ export function generateStaticParams() {
   }));
 }
 
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }: { params: Promise<{ state: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
-  const data = STATE_DATA[resolvedParams.state];
+  const stateSlug = resolvedParams.state.toLowerCase();
+  const data = STATE_DATA[stateSlug];
   if (!data) return { title: "Not Found" };
   return {
     title: `${data.board} Electricity Bill Calculator (${data.state}) | VoltMetric India`,
@@ -76,7 +79,8 @@ export async function generateMetadata({ params }: { params: Promise<{ state: st
 
 export default async function StateCalculatorPage({ params }: { params: Promise<{ state: string }> }) {
   const resolvedParams = await params;
-  const data = STATE_DATA[resolvedParams.state];
+  const stateSlug = resolvedParams.state.toLowerCase();
+  const data = STATE_DATA[stateSlug];
   
   if (!data) {
     notFound();
